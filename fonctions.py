@@ -96,7 +96,7 @@ def InitSol(data):
     N = data[0]
 
     # Ring aléatoire optimisé
-    x = random.randint(1, N)
+    x = random.randint(33, 33)
     ring = []
     i = 0
     while i < x:
@@ -153,7 +153,12 @@ def voisinage(data, sol, choice):
         
         if index > -2:
             ring[index], ring[index-1] = ring[index-1], ring[index]
-            sol = [ring] + [sol[1]] + [cost]
+            sol[2] = cost
+        else:
+            a = random.randint(0, len(ring)-1)
+            ring[a], ring[a-1] = ring[a-1], ring[a]
+            cost = CalculCost(data, sol)
+            sol[2] = cost
     
     # Transposition
     elif choice == 2:
@@ -175,7 +180,13 @@ def voisinage(data, sol, choice):
 
         if index_i > -1:
             ring[index_i], ring[index_j] = ring[index_j], ring[index_i]
-            sol = [ring] + [sol[1]] + [cost]
+            sol[2] = cost
+        else:
+            a = random.randint(0, len(ring)-2)
+            b = random.randint(a+1, len(ring)-1)
+            ring[a], ring[b] = ring[b], ring[a]
+            cost = CalculCost(data, sol)
+            sol[2] = cost
     
     # Déplacement
     elif choice == 3:
@@ -222,12 +233,12 @@ def voisinage(data, sol, choice):
                 ring[index_j], ring[index_j+1:] = ring[index_i], ring[index_j:index_i]
             else:
                 ring[index_j], ring[index_j+1:index_i+1] = ring[index_i], ring[index_j:index_i]
-            sol = [ring] + [sol[1]] + [cost]
+            sol[2] = cost
         else:
             if index_j == -1:
                 ring[index_j], ring[index_i:index_j] = ring[index_i], ring[index_i+1:]
             else:
                 ring[index_j], ring[index_i:index_j] = ring[index_i], ring[index_i+1:index_j+1]
-            sol = [ring] + [sol[1]] + [cost]
+            sol[2] = cost
     
     return sol
