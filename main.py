@@ -1,10 +1,10 @@
 from fonctions import load_data, create_solution, CalculCost
-from metaheuristiques import LocalSearch
+from metaheuristiques import LocalSearch, RecSim
 
-data = load_data("data9.dat")
+data = load_data("data1.dat")
 
 nom = "sol1.txt"
-sol = LocalSearch(data)
+sol = RecSim(data)
 create_solution(nom, sol)
 
 print(CalculCost(data, sol), "->", sol[2])

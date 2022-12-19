@@ -96,7 +96,7 @@ def InitSol(data):
     N = data[0]
 
     # Ring aléatoire optimisé
-    x = random.randint(33, 33)
+    x = random.randint(1, N)
     ring = []
     i = 0
     while i < x:
