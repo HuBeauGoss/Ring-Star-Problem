@@ -94,13 +94,13 @@ def OptimizedCost(data, val):
 def InitSol(data):
     
     N = data[0]
-
+    
     # Ring aléatoire optimisé
     x = random.randint(1, N)
-    ring = []
-    i = 0
+    ring = [1]
+    i = 1
     while i < x:
-        s = random.randint(1, N)
+        s = random.randint(2, N)
         if ring.count(s) == 0:
             ring.append(s)
             i += 1
@@ -128,7 +128,7 @@ def IS_Iterate(data, N):
         cost = sol[2]
         if cost < temp:
             temp = cost
-            save = sol
+            save = sol.copy()
 
     return save
 
