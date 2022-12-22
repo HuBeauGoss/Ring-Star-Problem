@@ -1,6 +1,6 @@
 import time, random, copy
 import numpy as np
-from fonctions import IS_Iterate, voisinage
+from fonctions import IS_Iterate, FindMin, voisinage, voisinage2
 
 # Recherche locale
 def LocalSearch(data, sol):
@@ -73,3 +73,48 @@ def LS_Iterate(data):
             save = sol.copy()
     
     return save
+
+def TabuSearch(data):
+
+    start = time.time()
+    # Temps total (Minutes * 60 secondes)
+    finaltime = 0.1 * 60
+
+    while(time.time()-start < finaltime):
+
+        Lt_max = 100
+        lt_init = 50
+        tabu = []
+        Sol = []
+        initsol = IS_Iterate(data, 10)
+        x = random.randint(1, 3)
+        _, listsol = voisinage2(data, initsol, x)
+        for _ in range(lt_init):
+            bestsol, i = FindMin(listsol)
+            tabu.append(bestsol)
+            Sol.append(bestsol[2])
+            listsol.pop(i)
+        
+        while len(tabu) < Lt_max:
+
+            newtabu = copy.deepcopy(tabu)
+            s_cur, _ = FindMin(newtabu)
+            x = random.randint(1, 3)
+            _, listsol = voisinage2(data, s_cur, x)
+            verif = []
+            for _ in range(len(listsol)):
+                bestsol, i = FindMin(listsol)
+                verif.append(bestsol)
+                listsol.pop(i)
+            
+            for s_cur in verif:
+                if Sol.count(s_cur[2]) == 0:
+                    tabu.append(s_cur)
+                    Sol.append(s_cur[2])
+                    break
+        
+            sol, _ = FindMin(tabu)
+            if (time.time()-start > finaltime):
+                break
+    
+    return sol

@@ -1,11 +1,11 @@
-from fonctions import load_data, create_solution, IS_Iterate, CalculCost
-from metaheuristiques import RecSim, LS_Iterate
+from fonctions import load_data, create_solution, IS_Iterate, CalculCost, voisinage2
+from metaheuristiques import RecSim, LS_Iterate, TabuSearch
 
 data, nom = [], []
 for i in range(9):
     data = load_data(f"data{i+1}.dat")
     # initsol = IS_Iterate(data, 1000)
-    sol = LS_Iterate(data)
+    sol = TabuSearch(data)
     print(i+1, CalculCost(data, sol), "->", sol[2])
     print(100*len(sol[0])/data[0], "%")
     # nom = f"Solution {i+1}.txt"
@@ -55,3 +55,15 @@ for i in range(9):
 # Data7 : 69 588
 # Data8 : 133 660
 # Data9 : 104 947
+
+""" Tabou
+1// 1470
+2// 2121
+3// 1244
+4// 1844
+5// 2602
+6 // 1756
+7 // 78 225
+8 // 121 887
+9 // 97 772
+"""
