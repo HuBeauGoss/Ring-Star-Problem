@@ -28,7 +28,7 @@ def RecSim(data, sol):
     
     start = time.time()
     # Temps total (Minutes * 60 secondes)
-    finaltime = 0.5 * 60
+    finaltime = 3 * 60
 
     bestsol = copy.deepcopy(sol)
     while(time.time()-start < finaltime):
@@ -87,9 +87,15 @@ def TabuSearch(data):
         tabu = []
         Sol = []
         initsol = IS_Iterate(data, 10)
-        x = random.randint(1, 3)
-        _, listsol = voisinage2(data, initsol, x)
-        for _ in range(lt_init):
+        if len(sol[0]) > 3:
+            x = random.randint(1, 3)
+            _, listsol = voisinage2(data, initsol, x)
+        else:
+            listsol = initsol.copy()
+        times = 0
+        for _ in range(len(listsol)):
+            if times > lt_init:
+                break
             bestsol, i = FindMin(listsol)
             tabu.append(bestsol)
             Sol.append(bestsol[2])
