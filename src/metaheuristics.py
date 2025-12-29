@@ -1,6 +1,11 @@
-import time, random, copy
+import copy
+import random
+import time
+
 import numpy as np
-from fonctions import IS_Iterate, FindMin, voisinage, voisinage2
+
+from functions import BestNeighbor, FindMin, IS_Iterate, TabuNeighbors
+
 
 # Recherche locale
 def LocalSearch(data, sol):
@@ -15,7 +20,7 @@ def LocalSearch(data, sol):
         if len(sol[0]) > 3:
             for _ in range(50):
                 x = random.randint(1,3)
-                sol = voisinage(data, sol, x)
+                sol = BestNeighbor(data, sol, x)
                 if sol[2] < bestsol[2]:
                     bestsol = copy.deepcopy(sol)
                     # print("LS :", bestsol[2])
@@ -41,7 +46,7 @@ def RecSim(data, sol):
             if len(sol[0]) > 3:
                 for _ in range(10):
                     x = random.randint(1, 3)
-                    newsol = voisinage(data, sol, x)
+                    newsol = BestNeighbor(data, sol, x)
                     delta = newsol[2] - sol[2]
                     if delta < 0:
                         sol = newsol.copy()
@@ -89,7 +94,7 @@ def TabuSearch(data):
         initsol = IS_Iterate(data, 10)
         if len(sol[0]) > 3:
             x = random.randint(1, 3)
-            _, listsol = voisinage2(data, initsol, x)
+            _, listsol = TabuNeighbors(data, initsol, x)
         else:
             listsol = initsol.copy()
         times = 0
@@ -106,7 +111,7 @@ def TabuSearch(data):
             newtabu = copy.deepcopy(tabu)
             s_cur, _ = FindMin(newtabu)
             x = random.randint(1, 3)
-            _, listsol = voisinage2(data, s_cur, x)
+            _, listsol = TabuNeighbors(data, s_cur, x)
             verif = []
             for _ in range(len(listsol)):
                 bestsol, i = FindMin(listsol)
